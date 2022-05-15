@@ -1,0 +1,15 @@
+{
+    "name": "node-starter",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "sls offline"
+    },
+    "dependencies": {
+        "aws-sdk": "2.1135.0"
+    },
+    "devDependencies": {
+        "serverless": "3.17.0",
+        "serverless-offline": "^6.9.0"
+    }
+}

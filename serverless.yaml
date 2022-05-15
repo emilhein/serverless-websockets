@@ -1,0 +1,34 @@
+service: your-socket-service
+frameworkVersion: '3'
+package:
+  individually: true
+  exclude:
+    - node_modules/aws-sdk/** #Its already included in the aws lambda environmentfv
+provider:
+  name: aws
+  region: eu-west-1
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  websocketsApiRouteSelectionExpression: "$request.body.route"
+plugins:
+  - serverless-offline
+
+functions:
+  connect:
+    handler: src/handlers/connect.connect
+    events:
+        - websocket:
+            route: $connect
+            # authorizer: Here we could use an authorizer function to gatekeep the initiation of a connection
+  disconnect:
+    handler: src/handlers/disconnect.disconnect
+    events:
+      - websocket:
+          route: $disconnect
+  testHandler:
+    timeout: 600 # With cold starts this endpoint can be slow
+    memorySize: 4096 # default is 1024
+    handler: src/handlers/tester.handler  #This is the interesting handler 
+    events:
+      - websocket:
+          route: $default
